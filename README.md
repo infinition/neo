@@ -1,7 +1,8 @@
 # Neo
 
 Zero-copy GPU video pipeline in Rust. Decode, filter, run neural nets, encode
-and stream — frame data never leaves VRAM.
+and stream - frame data never leaves VRAM.
+
 
 ## Origin
 
@@ -9,7 +10,7 @@ The project started as a ground-up rewrite of FFmpeg in safe Rust. It quickly
 became clear that the CPU side of a modern pipeline is the bottleneck: decoded
 frames round-trip through host RAM for every filter, shader, or model pass.
 Neo pivoted to a zero-copy architecture where the entire pipeline lives on the
-GPU — disk reads hit NVMe, land in NVDEC, stay on the device through every
+GPU - disk reads hit NVMe, land in NVDEC, stay on the device through every
 filter/shader/ONNX pass, and exit through NVENC. The host never sees raw
 pixels.
 
@@ -96,7 +97,7 @@ neo/
   vendor/
     nvidia-video-codec-sdk/   NVENC/NVDEC bindings (vendored, Apache-2.0)
     oidn-wgpu-interop/        OIDN+wgpu external-memory bridge
-  assets/                 Runtime assets — git-ignored, see below
+  assets/                 Runtime assets - git-ignored, see below
     videos/  models/  filters/  trt_cache/  bin/
 ```
 
@@ -177,7 +178,7 @@ cd demos/neo-stream/target/release
 ./neo-recv.exe 127.0.0.1:9000
 ```
 
-### neo-mosaic — live WGSL shader mosaic
+### neo-mosaic - live WGSL shader mosaic
 
 Decodes an H.264 clip, applies a user-selected WGSL shader per tile, encodes
 and streams. Shaders in `shaders/examples/` hot-reload on save.
@@ -191,7 +192,7 @@ cd demos/neo-mosaic/target/release
   --fps     30
 ```
 
-### neo-desktop — desktop capture → NVENC → TCP
+### neo-desktop - desktop capture → NVENC → TCP
 
 Captures the desktop with D3D11, shares the texture with CUDA, encodes with
 NVENC, sends over TCP.
@@ -201,7 +202,7 @@ cd demos/neo-desktop/target/release
 ./neo-desktop-send.exe --addr 0.0.0.0:9000 --fps 60
 ```
 
-### neo-rife-zc — zero-copy RIFE frame interpolation (2x FPS)
+### neo-rife-zc - zero-copy RIFE frame interpolation (2x FPS)
 
 Interpolates one intermediate frame per decoded pair. Output FPS is `--fps * 2`.
 Model must be a 3-input RIFE export: `(img0, img1, timestep)`.
@@ -215,7 +216,7 @@ cd demos/neo-rife-zc/target/release
   --fps   30
 ```
 
-### neo-filter-live — hot-swappable ONNX filter
+### neo-filter-live - hot-swappable ONNX filter
 
 Watches a directory; drop any `.onnx` file with shape `[1,3,H,W]` → `[1,3,H,W]`
 and the pipeline swaps to it live. Remove the file to return to pass-through.
@@ -235,7 +236,7 @@ cp some_model.onnx assets/filters/
 rm assets/filters/some_model.onnx   # back to pass-through
 ```
 
-### neo-infer-bench — inference benchmark
+### neo-infer-bench - inference benchmark
 
 Measures CUDA↔Vulkan interop + ORT inference throughput without encoder
 overhead.
