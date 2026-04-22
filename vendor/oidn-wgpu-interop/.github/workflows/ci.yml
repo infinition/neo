@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+  OIDN_VERSION: "2.3.2"
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-2022
+            target: x86_64-pc-windows-msvc
+            oidn_ty: "x64.windows"
+            oidn_ext: ".zip"
+            curl: "curl.exe"
+            copy_src: "bin"
+          - name: Ubuntu
+            os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            oidn_ty: "x86_64.linux"
+            oidn_ext: ".tar.gz"
+            curl: "curl"
+            copy_src: "lib"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download oidn
+        shell: bash
+        run: ${{ matrix.curl }} -L --retry 3 https://github.com/RenderKit/oidn/releases/download/v${{ env.OIDN_VERSION }}/oidn-${{ env.OIDN_VERSION }}.${{ matrix.oidn_ty }}${{ matrix.oidn_ext }} -o oidn-${{ env.OIDN_VERSION }}.${{ matrix.oidn_ty }}${{ matrix.oidn_ext }}
+      - name: Unwrap oidn
+        run: tar -xf oidn-${{ env.OIDN_VERSION }}.${{ matrix.oidn_ty }}${{ matrix.oidn_ext }}
+      - name: Copy libs
+        run: cp -r oidn-${{ env.OIDN_VERSION }}.${{ matrix.oidn_ty }}/lib/ ./
+      - run: echo "OIDN_DIR=`pwd`/oidn-${{ env.OIDN_VERSION }}.${{ matrix.oidn_ty }}" >> $GITHUB_ENV
+      - name: Set LD_LIBRARY_PATH
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        run: echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OIDN_DIR}/lib" >> $GITHUB_ENV
+      - name: Clippy default features (windows)
+        if: matrix.target == 'x86_64-pc-windows-msvc'
+        run: |
+          $env:OIDN_DIR="${OIDN_DIR}/"
+          cargo clippy
+      - name: Clippy all features (windows)
+        if: matrix.target == 'x86_64-pc-windows-msvc'
+        run: |
+          $env:OIDN_DIR="${OIDN_DIR}/"
+          cargo clippy --all-features
+      - name: Clippy default features (linux)
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        run: cargo clippy
+      - name: Clippy all features (linux)
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        run: cargo clippy --all-features
+      - name: Format
+        run: cargo fmt -- --check

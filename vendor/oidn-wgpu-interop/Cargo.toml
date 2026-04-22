@@ -1,0 +1,38 @@
+workspace = { members = [ "examples/denoise"] }
+
+[package]
+name = "oidn-wgpu-interop"
+version = "0.5.0"
+edition = "2024"
+license = "MIT"
+description = "An inteoperability layer between wgpu and oidn"
+keywords = ["interoperability", "compatability", "oidn", "wgpu"]
+repository = "https://github.com/Vecvec/oidn-wgpu-interop"
+exclude = [".cargo/*", ".github/*", "examples/*"]
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-pc-windows-msvc"]
+
+[dependencies]
+oidn = "2.3.3"
+wgpu = "29"
+wgpu-hal = "29"
+ash = "0.38.0"
+
+[build-dependencies]
+cfg_aliases = "0.2.1"
+
+[dev-dependencies]
+async-std = { version = "1.13.0", features = ["attributes"] }
+
+[features]
+default = ["dx12", "vulkan"]
+
+# These features should be all the wgpu features that also
+# affect this repository.
+dx12 = ["wgpu-hal/dx12"]
+vulkan = ["wgpu-hal/vulkan"]
+
+[target.'cfg(windows)'.dependencies]
+windows = "0.62"
