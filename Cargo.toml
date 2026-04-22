@@ -1,0 +1,79 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/neo-core",
+    "crates/neo-gpu",
+    "crates/neo-decode",
+    "crates/neo-encode",
+    "crates/neo-pipeline",
+    "crates/neo-infer",
+    "crates/neo-filters",
+    "crates/neo-io",
+    "crates/neo-hwaccel",
+    "crates/neo-infer-ort",
+    "crates/neo-lab",
+    "crates/neo-cli",
+    "vendor/nvidia-video-codec-sdk",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/neo-ffmpeg/neo-ffmpeg"
+description = "Neo — Zero-copy VRAM video processing pipeline"
+
+[workspace.dependencies]
+# Core
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+bytemuck = { version = "1.14", features = ["derive"] }
+
+# GPU
+wgpu = { version = "29", default-features = false, features = ["vulkan", "wgsl", "metal"] }
+wgpu-hal = { version = "29", default-features = false, features = ["vulkan"] }
+ash = "0.38"
+windows = { version = "0.62", default-features = false, features = ["Win32_Foundation"] }
+pollster = "0.4"
+
+# Hardware acceleration (NVIDIA)
+cudarc = { version = "0.19", default-features = false, features = ["cuda-12060", "dynamic-loading", "driver"] }
+nvidia-video-codec-sdk = { path = "vendor/nvidia-video-codec-sdk" }
+
+# Async
+tokio = { version = "1", features = ["full"] }
+futures = "0.3"
+async-channel = "2"
+
+# Math / Tensors
+ndarray = "0.16"
+num-traits = "0.2"
+half = { version = "2", features = ["bytemuck"] }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+indicatif = "0.17"
+console = "0.15"
+
+# Image I/O
+image = "0.25"
+
+# I/O
+memmap2 = "0.9"
+bytes = "1"
+
+# Internal crates
+neo-core = { path = "crates/neo-core" }
+neo-gpu = { path = "crates/neo-gpu" }
+neo-decode = { path = "crates/neo-decode" }
+neo-encode = { path = "crates/neo-encode" }
+neo-pipeline = { path = "crates/neo-pipeline" }
+neo-infer = { path = "crates/neo-infer" }
+neo-filters = { path = "crates/neo-filters" }
+neo-io = { path = "crates/neo-io" }
+neo-hwaccel = { path = "crates/neo-hwaccel" }
+neo-infer-ort = { path = "crates/neo-infer-ort" }
+neo-lab = { path = "crates/neo-lab" }

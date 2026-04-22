@@ -1,0 +1,16 @@
+[package]
+name = "neo-infer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "AI inference integration — run neural networks directly on VRAM tensors"
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+bytemuck.workspace = true
+ndarray.workspace = true
+serde.workspace = true
+serde_json.workspace = true

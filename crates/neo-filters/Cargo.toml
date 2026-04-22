@@ -1,0 +1,21 @@
+[package]
+name = "neo-filters"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Built-in neural video filters — upscale, denoise, style-transfer, frame interpolation"
+
+[features]
+default = []
+# Enable ONNX-based filters (upscale, denoise, interpolate) backed by
+# ort+CUDA. Requires the same runtime setup as `neo-infer-ort` —
+# onnxruntime.dll on PATH or `ORT_DYLIB_PATH` set.
+backend-ort = ["neo-infer-ort/backend-ort"]
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+neo-infer.workspace = true
+neo-infer-ort.workspace = true
+thiserror.workspace = true
+tracing.workspace = true

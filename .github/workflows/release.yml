@@ -1,0 +1,107 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: build windows binaries
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+
+      - name: cache build targets
+        uses: actions/cache@v4
+        with:
+          path: |
+            target
+            demos/*/target
+          key: ${{ runner.os }}-target-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+
+      - name: build root workspace (neo cli + libs)
+        run: cargo build --release --workspace
+
+      - name: build demo —neo-stream (neo-recv, neo-send)
+        run: cargo build --release
+        working-directory: demos/neo-stream
+
+      - name: build demo —neo-mosaic
+        run: cargo build --release
+        working-directory: demos/neo-mosaic
+
+      - name: build demo —neo-desktop
+        run: cargo build --release
+        working-directory: demos/neo-desktop
+
+      - name: build demo —neo-rife-zc
+        run: cargo build --release
+        working-directory: demos/neo-rife-zc
+
+      - name: build demo —neo-filter-live
+        run: cargo build --release
+        working-directory: demos/neo-filter-live
+
+      - name: build demo —neo-infer-bench
+        run: cargo build --release
+        working-directory: demos/neo-infer-bench
+
+      - name: stage release artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $exes = @(
+            "target/release/neo.exe",
+            "demos/neo-stream/target/release/neo-recv.exe",
+            "demos/neo-stream/target/release/neo-send.exe",
+            "demos/neo-mosaic/target/release/neo-mosaic.exe",
+            "demos/neo-desktop/target/release/neo-desktop-send.exe",
+            "demos/neo-rife-zc/target/release/neo-rife-zc.exe",
+            "demos/neo-filter-live/target/release/neo-filter-live.exe",
+            "demos/neo-infer-bench/target/release/neo-infer-bench.exe"
+          )
+          foreach ($e in $exes) {
+            if (Test-Path $e) { Copy-Item $e dist/ } else { Write-Warning "missing: $e" }
+          }
+          Get-ChildItem dist
+
+      - name: zip release bundle
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ([string]::IsNullOrEmpty($tag)) { $tag = "dev" }
+          Compress-Archive -Path dist/* -DestinationPath "neo-$tag-windows-x86_64.zip"
+
+      - name: upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: neo-windows-x86_64
+          path: |
+            dist/*.exe
+            neo-*-windows-x86_64.zip
+
+      - name: publish github release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.exe
+            neo-*-windows-x86_64.zip
+          generate_release_notes: true

@@ -1,0 +1,43 @@
+[workspace]
+
+[package]
+name = "neo-desktop"
+version = "0.1.0"
+edition = "2021"
+description = "GPU remote desktop sender — DXGI screen capture + CUDA-Graphics interop + NVENC + TCP (zerocopy)"
+
+[[bin]]
+name = "neo-desktop-send"
+path = "src/main.rs"
+
+[dependencies]
+# Neo crates
+neo-core    = { path = "../../crates/neo-core" }
+neo-gpu     = { path = "../../crates/neo-gpu" }
+neo-hwaccel = { path = "../../crates/neo-hwaccel" }
+
+# NVENC
+nvidia-video-codec-sdk = { path = "../../vendor/nvidia-video-codec-sdk" }
+
+# CUDA driver (for CUDA <-> D3D11 interop, pitched alloc, DtoD memcpy)
+cudarc = { version = "0.19", default-features = false, features = ["cuda-12060", "dynamic-loading", "driver"] }
+
+# Dynamic loading of `cuGraphicsD3D11RegisterResource` (not exposed by cudarc)
+libloading = "0.8"
+
+# Windows APIs for DXGI Desktop Duplication
+windows = { version = "0.62", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Dxgi",
+    "Win32_Graphics_Dxgi_Common",
+    "Win32_Graphics_Direct3D",
+    "Win32_Graphics_Direct3D11",
+    "Win32_Graphics_Gdi",
+] }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Logging
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

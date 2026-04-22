@@ -1,0 +1,20 @@
+[package]
+name = "neo-pipeline"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Graph-based processing pipeline — zero-copy node orchestration in VRAM"
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+wgpu.workspace = true
+neo-decode.workspace = true
+neo-encode.workspace = true
+neo-infer.workspace = true
+image.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tokio.workspace = true
+futures.workspace = true
+async-channel.workspace = true

@@ -1,0 +1,42 @@
+[workspace]
+
+[package]
+name = "neo-stream"
+version = "0.1.0"
+edition = "2021"
+description = "Real-time GPU video streaming with end-to-end latency metrics (zerocopy)"
+
+[[bin]]
+name = "neo-send"
+path = "src/sender.rs"
+
+[[bin]]
+name = "neo-recv"
+path = "src/receiver.rs"
+
+[dependencies]
+# Neo crates
+neo-core    = { path = "../../crates/neo-core" }
+neo-gpu     = { path = "../../crates/neo-gpu" }
+neo-hwaccel = { path = "../../crates/neo-hwaccel" }
+
+# GPU
+wgpu     = { version = "29", default-features = false, features = ["vulkan", "wgsl"] }
+pollster = "0.4"
+bytemuck = { version = "1.14", features = ["derive"] }
+
+# CUDA (for DtoD copies in the device hook)
+cudarc = { version = "0.19", default-features = false, features = ["cuda-12060", "dynamic-loading", "driver"] }
+
+# Windowing (receiver only)
+winit = "0.30"
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Logging
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Misc
+nvidia-video-codec-sdk = { path = "../../vendor/nvidia-video-codec-sdk" }

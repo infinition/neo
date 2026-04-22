@@ -1,0 +1,39 @@
+[workspace]
+
+[package]
+name = "neo-infer-bench"
+version = "0.1.0"
+edition = "2021"
+description = "Zero-copy ONNX inference bench — CUDA↔Vulkan interop buffer + ort CUDA EP"
+
+[[bin]]
+name = "neo-infer-bench"
+path = "src/main.rs"
+
+[features]
+# Opt-in to the real CUDA path. Without this feature the binary still
+# builds and runs but uses the pure-Rust tract backend through a host
+# bounce (for comparison only).
+default = ["cuda"]
+cuda = ["neo-infer-ort/backend-ort"]
+
+[dependencies]
+# Neo crates
+neo-core     = { path = "../../crates/neo-core" }
+neo-gpu      = { path = "../../crates/neo-gpu" }
+neo-hwaccel  = { path = "../../crates/neo-hwaccel" }
+neo-infer-ort = { path = "../../crates/neo-infer-ort" }
+
+# CUDA driver (for cuMemsetD32 / cuMemcpyDtoH / cuCtxSynchronize used in
+# the fill + verify steps).
+cudarc = { version = "0.19", default-features = false, features = ["cuda-12060", "dynamic-loading", "driver"] }
+
+# wgpu download verify step
+wgpu = { version = "29", default-features = false, features = ["vulkan", "wgsl"] }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Logging
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

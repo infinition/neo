@@ -1,0 +1,15 @@
+[package]
+name = "neo-gpu"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "GPU abstraction layer — wgpu-based zero-copy VRAM buffer management"
+
+[dependencies]
+neo-core.workspace = true
+wgpu.workspace = true
+pollster.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+bytemuck.workspace = true
+tokio.workspace = true

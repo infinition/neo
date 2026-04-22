@@ -1,0 +1,14 @@
+[package]
+name = "neo-encode"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Hardware-accelerated video encoding — NVENC, VideoToolbox, VAAPI abstractions"
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+bytemuck.workspace = true
+bytes.workspace = true

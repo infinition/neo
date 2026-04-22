@@ -1,0 +1,60 @@
+[package]
+name = "neo-infer-ort"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Neo-FFmpeg ONNX inference bridge — load and run ONNX models on Neo's video pipeline (tract backend)"
+
+[features]
+default = []
+# Phase B.2: enable the GPU-accelerated ort backend.
+#
+# Requires `onnxruntime.dll` (and `onnxruntime_providers_cuda.dll` for
+# CUDA) to be on PATH or pointed at via `ORT_DYLIB_PATH`. We use
+# `load-dynamic` on purpose so the crate still builds on toolchains that
+# don't have a prebuilt binary crate available.
+backend-ort = ["dep:ort", "dep:cudarc"]
+
+[dependencies]
+neo-core.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+# tract is a pure-Rust ONNX runtime: no native libraries, no DLL hunting,
+# no Visual Studio toolchain required. Slower than ort/TensorRT for big
+# models, but Phase B.1's job is to prove the bridge — not to win
+# benchmarks. Phase B.2 can swap this for ort+CUDA without changing the
+# `OnnxModel` public API.
+tract-onnx = "0.22"
+ndarray = "0.16"
+# `prost` must match the version tract-onnx pins internally so the
+# generated protobuf types live on the same ABI.
+prost = "=0.11"
+
+# Phase B.2 — optional ort+CUDA backend (enabled with `backend-ort`).
+ort = { version = "=2.0.0-rc.10", default-features = false, features = ["load-dynamic", "ndarray"], optional = true }
+cudarc = { workspace = true, optional = true }
+
+[[bin]]
+name = "neo-gen-identity-onnx"
+path = "src/bin/gen_identity.rs"
+
+[[bin]]
+name = "neo-gen-invert-onnx"
+path = "src/bin/gen_invert.rs"
+
+[[bin]]
+name = "neo-gen-brightness-onnx"
+path = "src/bin/gen_brightness.rs"
+
+[[bin]]
+name = "neo-gen-chain-onnx"
+path = "src/bin/gen_chain.rs"
+
+[[bin]]
+name = "neo-gen-unary-onnx"
+path = "src/bin/gen_unary.rs"
+
+[[bin]]
+name = "neo-gen-clip-onnx"
+path = "src/bin/gen_clip.rs"

@@ -1,0 +1,14 @@
+[package]
+name = "neo-io"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Zero-copy I/O — DirectStorage bypass, NVMe-to-GPU, network streaming"
+
+[dependencies]
+neo-core.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tokio.workspace = true
+memmap2.workspace = true
+bytes.workspace = true

@@ -1,0 +1,30 @@
+[package]
+name = "neo-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Neo CLI"
+
+[[bin]]
+name = "neo"
+path = "src/main.rs"
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+wgpu.workspace = true
+neo-decode.workspace = true
+neo-encode.workspace = true
+neo-pipeline.workspace = true
+neo-infer.workspace = true
+neo-filters.workspace = true
+neo-io.workspace = true
+neo-hwaccel.workspace = true
+neo-lab.workspace = true
+clap.workspace = true
+indicatif.workspace = true
+console.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tokio.workspace = true
+serde_json.workspace = true

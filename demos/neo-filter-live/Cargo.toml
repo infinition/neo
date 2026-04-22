@@ -1,0 +1,39 @@
+[workspace]
+
+[package]
+name = "neo-filter-live"
+version = "0.1.0"
+edition = "2021"
+description = "Live-swappable ONNX filter streamer (drop .onnx into --filters-dir)"
+
+[[bin]]
+name = "neo-filter-live"
+path = "src/main.rs"
+
+[dependencies]
+# Neo crates
+neo-core      = { path = "../../crates/neo-core" }
+neo-gpu       = { path = "../../crates/neo-gpu" }
+neo-hwaccel   = { path = "../../crates/neo-hwaccel" }
+neo-infer-ort = { path = "../../crates/neo-infer-ort", features = ["backend-ort"] }
+
+# GPU
+wgpu     = { version = "29", default-features = false, features = ["vulkan", "wgsl"] }
+pollster = "0.4"
+bytemuck = { version = "1.14", features = ["derive"] }
+
+# CUDA
+cudarc = { version = "0.19", default-features = false, features = ["cuda-12060", "dynamic-loading", "driver"] }
+
+# File watcher for hot-swap
+notify = "6"
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Logging
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Misc
+nvidia-video-codec-sdk = { path = "../../vendor/nvidia-video-codec-sdk" }

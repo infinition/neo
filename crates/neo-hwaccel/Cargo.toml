@@ -1,0 +1,23 @@
+[package]
+name = "neo-hwaccel"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Neo-FFmpeg hardware acceleration — native NVDEC/NVENC + CUDA-Vulkan interop"
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+cudarc.workspace = true
+nvidia-video-codec-sdk.workspace = true
+libloading = "0.8"
+wgpu.workspace = true
+bytemuck.workspace = true
+
+# Stage 6: CUDA↔Vulkan external memory interop
+[target.'cfg(windows)'.dependencies]
+wgpu-hal.workspace = true
+ash.workspace = true
+windows.workspace = true

@@ -1,0 +1,35 @@
+# Rust build artifacts
+/target
+**/target/
+*.pdb
+*.rlib
+*.rmeta
+
+# Windows binaries (rebuilt from source)
+*.exe
+*.dll
+*.lib
+
+# Large runtime assets (not shipped in repo; see README for download instructions)
+/assets/
+
+# TensorRT / ORT engine + timing caches
+**/trt_cache/
+*.engine
+*.profile
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+.DS_Store
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Logs and local tmp output
+*.log
+/tmp/
