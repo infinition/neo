@@ -1,0 +1,31 @@
+Neo
+Copyright 2025 Neo contributors
+
+This product is dual-licensed under either:
+
+  - MIT License (see LICENSE-MIT), or
+  - Apache License, Version 2.0 (see LICENSE-APACHE)
+
+at your option.
+
+This product includes third-party software in the `vendor/` directory,
+distributed under their respective licenses:
+
+  - vendor/nvidia-video-codec-sdk
+    MIT License. Copyright 2023 Viliam Vadocz.
+    See vendor/nvidia-video-codec-sdk/LICENSE.
+
+  - vendor/oidn-wgpu-interop
+    MIT License. Copyright 2025 Vecvec.
+    See vendor/oidn-wgpu-interop/LICENSE.
+
+This product links at runtime against NVIDIA proprietary libraries
+(NVENC, NVDEC, CUDA Runtime, cuDNN, TensorRT) via the user-installed
+NVIDIA display driver and SDK components. These libraries are covered
+by the NVIDIA Software License Agreement and the NVIDIA CUDA Toolkit
+EULA, not by this License. No NVIDIA SDK source code is included in
+this repository.
+
+This product loads ONNX Runtime at runtime via `ORT_DYLIB_PATH`.
+ONNX Runtime is licensed under the MIT License.
+See https://github.com/microsoft/onnxruntime.
