@@ -112,6 +112,24 @@ enum Commands {
         model: Option<String>,
     },
 
+    /// Neo Studio — Lab with an egui UI. Pick shaders live from a side
+    /// panel instead of dropping files. The `--shaders` dir is used as the
+    /// active-shader scratch dir the UI writes into.
+    Studio {
+        /// Optional clip to open on launch. Omit to import from the UI.
+        #[arg(short, long)]
+        input: Option<String>,
+        /// Scratch dir the UI writes the active .wgsl into. Created if missing.
+        #[arg(short, long, default_value = "shaders-studio")]
+        shaders: String,
+        /// Playback frames per second (default: 30)
+        #[arg(long)]
+        fps: Option<f64>,
+        /// Disable V-sync to measure raw throughput
+        #[arg(long)]
+        no_vsync: bool,
+    },
+
     /// Stage-4 end-to-end transcode: NVDEC -> (CPU|wgpu) -> NVENC
     TranscodeTest {
         /// Input raw H.264 Annex-B file
@@ -259,6 +277,12 @@ fn main() {
             no_vsync,
             model,
         } => cmd_lab(&input, &shaders, fps, no_vsync, model.as_deref()),
+        Commands::Studio {
+            input,
+            shaders,
+            fps,
+            no_vsync,
+        } => cmd_studio(input.as_deref(), &shaders, fps, no_vsync),
         Commands::TranscodeTest {
             input,
             output,
@@ -758,6 +782,29 @@ fn cmd_lab(
     };
     if let Err(e) = neo_lab::run(opts) {
         eprintln!("  Lab failed: {e}");
+    }
+}
+
+fn cmd_studio(input: Option<&str>, shaders: &str, fps: Option<f64>, no_vsync: bool) {
+    use neo_lab::StudioOptions;
+    use std::path::PathBuf;
+
+    println!();
+    println!("  Neo-FFmpeg -- Studio (egui UI)");
+    println!("  ==============================");
+    println!("  Input:   {}", input.unwrap_or("(import from UI)"));
+    println!("  Scratch: {shaders}");
+    println!("  Import a clip, pick shaders from the side panel. Esc / close to exit.");
+    println!();
+
+    let opts = StudioOptions {
+        input: input.map(PathBuf::from),
+        shaders_dir: PathBuf::from(shaders),
+        fps,
+        no_vsync,
+    };
+    if let Err(e) = neo_lab::run_studio(opts) {
+        eprintln!("  Studio failed: {e}");
     }
 }
 

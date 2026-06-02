@@ -9,7 +9,7 @@ description = "Neo-Lab — live WGSL shader chain editor for video, with hot rel
 neo-core.workspace = true
 neo-gpu.workspace = true
 neo-hwaccel.workspace = true
-neo-infer-ort.workspace = true
+neo-infer-ort = { workspace = true, features = ["backend-ort"] }
 wgpu.workspace = true
 bytemuck.workspace = true
 thiserror.workspace = true
@@ -18,3 +18,21 @@ pollster.workspace = true
 
 winit = "0.30"
 notify = "8"
+
+# egui immediate-mode UI overlay (Studio app). 0.34 tracks wgpu 29.
+egui = "0.34"
+egui-wgpu = "0.34"
+egui-winit = { version = "0.34", default-features = false }
+
+# Native file dialog (Import video…) for the standalone Studio app.
+rfd = "0.15"
+
+# NVENC encode for the in-app recorder.
+nvidia-video-codec-sdk = { workspace = true }
+
+# Needed by the standalone neo-studio binary for log init.
+tracing-subscriber = { workspace = true }
+
+[[bin]]
+name = "neo-studio"
+path = "src/bin/neo-studio.rs"

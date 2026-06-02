@@ -40,7 +40,10 @@ mod blit;
 mod chain;
 mod model_node;
 mod stream;
+mod studio;
 mod wgpu_infer;
+
+pub use studio::{run as run_studio, StudioOptions};
 
 use blit::BlitPipeline;
 use chain::{FinalBuffer, ShaderChain};

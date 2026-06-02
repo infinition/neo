@@ -1,5 +1,7 @@
 # Neo
 
+[![License](https://img.shields.io/badge/License-MIT%20%2F%20Apache%202.0-blue.svg)](LICENSE-MIT) ![Rust](https://img.shields.io/badge/Rust-000000?style=flat&logo=rust&logoColor=white) [![Release](https://img.shields.io/github/v/release/infinition/neo?style=flat)](https://github.com/infinition/neo/releases) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/infinition)
+
 Zero-copy GPU video pipeline in Rust. Decode, filter, run neural nets, encode
 and stream - frame data never leaves VRAM.
 
