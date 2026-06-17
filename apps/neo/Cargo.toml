@@ -1,0 +1,54 @@
+[package]
+name = "neo-app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "neo — unified CLI: zero-copy GPU video pipeline (process, stream, mosaic, RIFE, live ONNX filters, benches)"
+
+[[bin]]
+name = "neo"
+path = "src/main.rs"
+
+[features]
+# The `cuda` feature gates the ORT-backed paths in `neo infer-bench`.
+# It is on by default; disabling it still builds the binary.
+default = ["cuda"]
+cuda = []
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+neo-hwaccel.workspace = true
+neo-infer-ort = { workspace = true, features = ["backend-ort"] }
+neo-lab.workspace = true
+# Legacy CPU reference path
+neo-decode.workspace = true
+neo-encode.workspace = true
+neo-pipeline.workspace = true
+neo-infer.workspace = true
+neo-filters.workspace = true
+neo-io.workspace = true
+
+wgpu.workspace = true
+pollster.workspace = true
+bytemuck.workspace = true
+cudarc.workspace = true
+nvidia-video-codec-sdk.workspace = true
+winit.workspace = true
+notify.workspace = true
+libloading.workspace = true
+windows = { workspace = true, features = [
+    "Win32_Graphics_Dxgi",
+    "Win32_Graphics_Dxgi_Common",
+    "Win32_Graphics_Direct3D",
+    "Win32_Graphics_Direct3D11",
+    "Win32_Graphics_Gdi",
+] }
+
+clap.workspace = true
+indicatif.workspace = true
+console.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tokio.workspace = true
+serde_json.workspace = true

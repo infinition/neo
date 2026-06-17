@@ -1,0 +1,22 @@
+[package]
+name = "neo-py"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Python bindings — zero-copy NVDEC video source for PyTorch (CUDA tensors straight from VRAM)"
+
+[lib]
+name = "neo"
+crate-type = ["cdylib"]
+
+[dependencies]
+neo-core.workspace = true
+neo-gpu.workspace = true
+neo-hwaccel.workspace = true
+
+wgpu.workspace = true
+pollster.workspace = true
+cudarc.workspace = true
+nvidia-video-codec-sdk.workspace = true
+pyo3.workspace = true
+tracing.workspace = true

@@ -1,0 +1,28 @@
+{
+  "mode": "neo",
+  "source": "C:\\Users\\infinition\\Desktop\\neo\\demos\\neo-yoloworld\\..\\neo-locate\\assets\\demo.h264",
+  "size": [
+    1920,
+    816
+  ],
+  "frames": 100,
+  "wall_s": 1.724596799999972,
+  "fps": 57.9845677552003,
+  "cpu_process_pct": 15.0,
+  "cpu_system_pct": 34.3,
+  "host_bytes_per_frame": 0,
+  "stages_ms": {
+    "decode+to_vram (GPU)": [
+      2.067189999997936,
+      0.52230000005693
+    ],
+    "preprocess (GPU)": [
+      0.2183700000114186,
+      0.17074999993837991
+    ],
+    "inference (GPU)": [
+      14.888396000001194,
+      14.301749999958702
+    ]
+  }
+}

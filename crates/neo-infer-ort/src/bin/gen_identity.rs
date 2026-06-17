@@ -1,4 +1,4 @@
-//! `neo-gen-identity-onnx`
+﻿//! `neo-gen-identity-onnx`
 //!
 //! Generate a minimal `[1, 3, H, W]` identity ONNX model on disk so you
 //! can smoke-test Neo Lab's `--model` path without downloading or
@@ -9,7 +9,7 @@
 //! cargo run -p neo-infer-ort --bin neo-gen-identity-onnx --release -- \
 //!     --width 1920 --height 1080 --out identity_1080p.onnx
 //!
-//! ./target/release/neo-ffmpeg.exe lab \
+//! ./target/release/neo.exe lab \
 //!     -i benchmarks/src_1080p.h264 \
 //!     -s shaders \
 //!     -m identity_1080p.onnx

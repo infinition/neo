@@ -1058,7 +1058,7 @@ impl StudioApp {
                     (Some(name), Some((w, h))) => {
                         ui.label(format!("Clip: {name}"));
                         ui.label(format!("{w} × {h}   ·   {:.1} FPS", fps));
-                        ui.checkbox(&mut uncapped, "Débrider (FPS max, ignore 30)");
+                        ui.checkbox(&mut uncapped, "Uncap FPS (ignore source rate)");
                         ui.separator();
                         ui.label("Shader");
                         for (i, (n, _)) in builtins().iter().enumerate() {

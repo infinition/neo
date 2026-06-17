@@ -20,64 +20,23 @@ jobs:
       - name: install rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: cache cargo registry
+      - name: cache cargo
         uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-
-      - name: cache build targets
-        uses: actions/cache@v4
-        with:
-          path: |
             target
-            demos/*/target
-          key: ${{ runner.os }}-target-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+          key: ${{ runner.os }}-release-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
 
-      - name: build root workspace (neo cli + libs)
+      - name: build workspace (release)
         run: cargo build --release --workspace
-
-      - name: build demo —neo-stream (neo-recv, neo-send)
-        run: cargo build --release
-        working-directory: demos/neo-stream
-
-      - name: build demo —neo-mosaic
-        run: cargo build --release
-        working-directory: demos/neo-mosaic
-
-      - name: build demo —neo-desktop
-        run: cargo build --release
-        working-directory: demos/neo-desktop
-
-      - name: build demo —neo-rife-zc
-        run: cargo build --release
-        working-directory: demos/neo-rife-zc
-
-      - name: build demo —neo-filter-live
-        run: cargo build --release
-        working-directory: demos/neo-filter-live
-
-      - name: build demo —neo-infer-bench
-        run: cargo build --release
-        working-directory: demos/neo-infer-bench
 
       - name: stage release artifacts
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path dist | Out-Null
-          $exes = @(
-            "target/release/neo.exe",
-            "demos/neo-stream/target/release/neo-recv.exe",
-            "demos/neo-stream/target/release/neo-send.exe",
-            "demos/neo-mosaic/target/release/neo-mosaic.exe",
-            "demos/neo-desktop/target/release/neo-desktop-send.exe",
-            "demos/neo-rife-zc/target/release/neo-rife-zc.exe",
-            "demos/neo-filter-live/target/release/neo-filter-live.exe",
-            "demos/neo-infer-bench/target/release/neo-infer-bench.exe"
-          )
-          foreach ($e in $exes) {
+          foreach ($e in @("target/release/neo.exe", "target/release/neo-studio.exe")) {
             if (Test-Path $e) { Copy-Item $e dist/ } else { Write-Warning "missing: $e" }
           }
           Get-ChildItem dist

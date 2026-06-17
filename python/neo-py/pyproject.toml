@@ -1,0 +1,20 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "neo"
+version = "0.1.0"
+description = "Zero-copy NVDEC video source for PyTorch — CUDA tensors straight from VRAM"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT OR Apache-2.0" }
+keywords = ["video", "gpu", "nvdec", "cuda", "pytorch", "zero-copy"]
+
+[project.urls]
+Repository = "https://github.com/infinition/neo"
+
+[tool.maturin]
+# The Rust crate lives next to this file; the workspace root is two levels up.
+manifest-path = "Cargo.toml"
+module-name = "neo"

@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: check / clippy / test (windows)
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-ci-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+
+      # --lib --bins (not --all-targets): the vendored nvidia-video-codec-sdk
+      # ships Unix-only examples that do not compile on Windows.
+      - name: cargo check (workspace)
+        run: cargo check --workspace --lib --bins
+
+      - name: cargo clippy (report only)
+        run: cargo clippy --workspace --lib --bins
+        continue-on-error: true
+
+      - name: cargo test
+        run: cargo test --workspace --lib --bins

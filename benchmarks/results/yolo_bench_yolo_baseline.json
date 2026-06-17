@@ -1,0 +1,32 @@
+{
+  "mode": "baseline",
+  "source": "C:\\Users\\infinition\\Desktop\\neo\\demos\\neo-yoloworld\\..\\neo-locate\\assets\\demo.mp4",
+  "size": [
+    1920,
+    816
+  ],
+  "frames": 100,
+  "wall_s": 2.28674060000003,
+  "fps": 43.73036451970052,
+  "cpu_process_pct": 87.33333333333333,
+  "cpu_system_pct": 83.1,
+  "host_bytes_per_frame": 4915200,
+  "stages_ms": {
+    "decode (CPU)": [
+      3.338498000011896,
+      3.1654000000571614
+    ],
+    "preprocess (CPU)": [
+      3.3816070000011678,
+      3.314150000051086
+    ],
+    "upload PCIe (HtoD)": [
+      0.7411099999922044,
+      0.6281999998236643
+    ],
+    "inference (GPU)": [
+      15.362253999999211,
+      14.621300000044357
+    ]
+  }
+}

@@ -1,18 +1,25 @@
 [workspace]
 resolver = "2"
 members = [
+    # GPU zero-copy core
     "crates/neo-core",
     "crates/neo-gpu",
-    "crates/neo-decode",
-    "crates/neo-encode",
-    "crates/neo-pipeline",
-    "crates/neo-infer",
-    "crates/neo-filters",
-    "crates/neo-io",
     "crates/neo-hwaccel",
     "crates/neo-infer-ort",
     "crates/neo-lab",
-    "crates/neo-cli",
+    # Legacy CPU reference path (baseline for benchmarks)
+    "crates/cpu/neo-decode",
+    "crates/cpu/neo-encode",
+    "crates/cpu/neo-filters",
+    "crates/cpu/neo-io",
+    "crates/cpu/neo-infer",
+    "crates/cpu/neo-pipeline",
+    # Binaries
+    "apps/neo",
+    "apps/neo-studio",
+    # Python bindings (maturin / pyo3)
+    "python/neo-py",
+    # Vendored
     "vendor/nvidia-video-codec-sdk",
 ]
 
@@ -20,7 +27,7 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/neo-ffmpeg/neo-ffmpeg"
+repository = "https://github.com/infinition/neo"
 description = "Neo — Zero-copy VRAM video processing pipeline"
 
 [workspace.dependencies]
@@ -58,6 +65,10 @@ clap = { version = "4", features = ["derive"] }
 indicatif = "0.17"
 console = "0.15"
 
+# Windowing / UI
+winit = "0.30"
+notify = "8"
+
 # Image I/O
 image = "0.25"
 
@@ -65,15 +76,21 @@ image = "0.25"
 memmap2 = "0.9"
 bytes = "1"
 
+# Python bindings
+pyo3 = { version = "0.23", features = ["extension-module", "abi3-py310", "generate-import-lib"] }
+
+# Dynamic library loading
+libloading = "0.8"
+
 # Internal crates
 neo-core = { path = "crates/neo-core" }
 neo-gpu = { path = "crates/neo-gpu" }
-neo-decode = { path = "crates/neo-decode" }
-neo-encode = { path = "crates/neo-encode" }
-neo-pipeline = { path = "crates/neo-pipeline" }
-neo-infer = { path = "crates/neo-infer" }
-neo-filters = { path = "crates/neo-filters" }
-neo-io = { path = "crates/neo-io" }
 neo-hwaccel = { path = "crates/neo-hwaccel" }
 neo-infer-ort = { path = "crates/neo-infer-ort" }
 neo-lab = { path = "crates/neo-lab" }
+neo-decode = { path = "crates/cpu/neo-decode" }
+neo-encode = { path = "crates/cpu/neo-encode" }
+neo-filters = { path = "crates/cpu/neo-filters" }
+neo-io = { path = "crates/cpu/neo-io" }
+neo-infer = { path = "crates/cpu/neo-infer" }
+neo-pipeline = { path = "crates/cpu/neo-pipeline" }

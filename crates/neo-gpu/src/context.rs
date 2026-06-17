@@ -1,4 +1,4 @@
-use neo_core::{NeoError, NeoResult};
+﻿use neo_core::{NeoError, NeoResult};
 use std::sync::Arc;
 use tracing::info;
 
@@ -93,7 +93,7 @@ impl GpuContext {
         // trace-path argument is gone.
         let (device, queue) = adapter
             .request_device(&wgpu::DeviceDescriptor {
-                label: Some("neo-ffmpeg"),
+                label: Some("neo"),
                 required_features: options.features,
                 required_limits: limits.clone(),
                 memory_hints: wgpu::MemoryHints::Performance,

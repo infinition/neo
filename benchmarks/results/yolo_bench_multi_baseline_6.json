@@ -1,0 +1,10 @@
+{
+  "mode": "baseline",
+  "streams": 6,
+  "frames_total": 240,
+  "wall_s": 2.4071449000000484,
+  "fps_total": 99.70317948038573,
+  "fps_per_stream": 16.617196580064288,
+  "cpu_process_pct": 93.91666666666667,
+  "cpu_system_pct": 100.0
+}

@@ -1,4 +1,4 @@
-//! `neo-gen-invert-onnx`
+﻿//! `neo-gen-invert-onnx`
 //!
 //! Generate a single-op `Sub(1, x)` ONNX model on disk — a photographic
 //! negative filter — so you can visually confirm Neo Lab's `--model`
@@ -10,7 +10,7 @@
 //! cargo run -p neo-infer-ort --bin neo-gen-invert-onnx --release -- \
 //!     --width 1920 --height 1080 --out invert_1080p.onnx
 //!
-//! ./target/release/neo-ffmpeg.exe lab \
+//! ./target/release/neo.exe lab \
 //!     -i benchmarks/src_1080p.h264 \
 //!     -s shaders \
 //!     -m invert_1080p.onnx

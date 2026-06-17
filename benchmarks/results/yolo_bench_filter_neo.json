@@ -1,0 +1,17 @@
+{
+  "mode": "neo",
+  "in": [
+    640,
+    480
+  ],
+  "out": [
+    640,
+    480
+  ],
+  "fps": 10.067585523305878,
+  "decode_ms": 0.002049857436590406,
+  "infer_ms": 0.0934654158327616,
+  "pcie_bytes_per_frame": 0,
+  "cpu_process_pct": 15.4,
+  "cpu_system_pct": 40.2
+}

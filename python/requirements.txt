@@ -1,0 +1,20 @@
+# Union of dependencies used by python/examples and python/tests.
+# Install PyTorch with CUDA support first: https://pytorch.org/get-started/locally/
+torch
+numpy
+opencv-python
+psutil
+
+# CLIP semantic search (perception-engine) + LocateAnything grounding
+transformers
+streamlit
+pandas
+
+# ONNX-backed examples (RVM matting, RealESRGAN, RIFE, inswapper)
+onnxruntime-gpu
+
+# YOLO-World examples
+ultralytics
+
+# Face swap examples
+insightface

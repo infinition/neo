@@ -1,0 +1,6 @@
+torch
+transformers
+onnxruntime-gpu
+opencv-python
+numpy
+psutil

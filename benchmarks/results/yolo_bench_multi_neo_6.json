@@ -1,0 +1,10 @@
+{
+  "mode": "neo",
+  "streams": 6,
+  "frames_total": 240,
+  "wall_s": 1.6872286999998778,
+  "fps_total": 142.24509101819888,
+  "fps_per_stream": 23.707515169699814,
+  "cpu_process_pct": 9.416666666666666,
+  "cpu_system_pct": 18.9
+}

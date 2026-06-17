@@ -1,0 +1,28 @@
+{
+  "mode": "neo",
+  "source": "assets\\bunny.h264",
+  "size": [
+    1280,
+    720
+  ],
+  "frames": 5,
+  "wall_s": 89.0535200000013,
+  "fps": 0.05614601197122727,
+  "cpu_process_pct": 22.71666666666667,
+  "cpu_system_pct": 41.6,
+  "host_bytes_per_frame": 0,
+  "stages_ms": {
+    "decode+to_vram (GPU)": [
+      6.5863200012245215,
+      2.4762000030023046
+    ],
+    "preprocess (GPU)": [
+      0.7080800009134691,
+      0.41090000013355166
+    ],
+    "inference (GPU)": [
+      17803.238240000792,
+      17119.866799999727
+    ]
+  }
+}

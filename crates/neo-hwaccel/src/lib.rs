@@ -24,6 +24,7 @@ pub mod nvdec_sys;
 pub mod nvenc;
 pub mod transcode;
 pub mod wgpu_convert;
+pub mod zerocopy_stream;
 
 pub use cuda::{CudaCapabilities, CudaDeviceInfo, CudaRuntime};
 pub use encode_test::{run as run_encode_test, EncodeTestResult};

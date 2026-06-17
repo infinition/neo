@@ -1,0 +1,14 @@
+{
+  "mode": "baseline",
+  "in": [
+    640,
+    480
+  ],
+  "fps": 15.022966054837713,
+  "decode_ms": 0.03965123648645572,
+  "infer_ms": 0.01540965878364266,
+  "postprocess_ms": 0.009071485810808726,
+  "pcie_bytes_per_frame": 8601600.0,
+  "cpu_process_pct": 6.833333333333333,
+  "cpu_system_pct": 18.4
+}

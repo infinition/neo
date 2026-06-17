@@ -29,10 +29,3 @@ rfd = "0.15"
 
 # NVENC encode for the in-app recorder.
 nvidia-video-codec-sdk = { workspace = true }
-
-# Needed by the standalone neo-studio binary for log init.
-tracing-subscriber = { workspace = true }
-
-[[bin]]
-name = "neo-studio"
-path = "src/bin/neo-studio.rs"

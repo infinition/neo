@@ -9,9 +9,28 @@
 *.exe
 *.dll
 *.lib
+*.pyd
 
-# Large runtime assets (not shipped in repo; see README for download instructions)
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+
+# Large runtime assets — never committed; see scripts/fetch-assets.ps1
 /assets/
+*.pt
+*.onnx
+*.h264
+*.264
+*.mp4
+*.neo
+
+# Benchmark scratch output (results worth keeping go in benchmarks/results/)
+/bench_*.json
+clips/
 
 # TensorRT / ORT engine + timing caches
 **/trt_cache/
@@ -33,3 +52,6 @@ desktop.ini
 # Logs and local tmp output
 *.log
 /tmp/
+
+# Studio scratch dirs
+shaders-studio/

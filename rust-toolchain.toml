@@ -1,0 +1,7 @@
+# Neo builds with the MSVC toolchain on Windows.
+#
+# The GNU toolchain fails on `windows-sys` (missing `dlltool.exe`) and on the
+# NVDEC/NVENC link path; this pin overrides any rustup default so every crate
+# in the workspace — including the pyo3 bindings — compiles consistently.
+[toolchain]
+channel = "stable-x86_64-pc-windows-msvc"
