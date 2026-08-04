@@ -98,21 +98,48 @@ Le dossier `Qwen_3.6_35b/` contient trois façons de lancer le modèle :
 | `neo_moe_release()` | `ffi::neo_moe_release()` | Rend le slot VRAM au pool |
 | `neo_moe_model_info()` | `ffi::neo_moe_model_info()` | Retourne n_layers / n_experts |
 
-Pour intégrer avec llama.cpp :
+### Le llama.cpp patché
 
-```bash
-# 1. Build neo-moe
-cargo build --release
+Il vit dans un **sous-module** : [`infinition/llama.cpp`](https://github.com/infinition/llama.cpp)
+branche `neo-moe` (basée sur upstream `f728ada`), monté sur
+`legacy_root/llama.cpp`. La branche `master` du fork reste l'upstream intact ;
+tous les patchs Neo sont sur `neo-moe`.
 
-# 2. Compiler llama.cpp avec le backend
-cd llama.cpp
-gcc -I../neo-moe -L../neo-moe/target/release \
-    -lneo_moe -o llama-server \
-    examples/server/server.cpp ... neo_moe_backend.c
+```powershell
+# 0. Récupérer le sous-module (si le clone n'a pas été fait en --recurse-submodules)
+git submodule update --init --recursive
 
-# 3. Lancer
-./llama-server --model model.gguf --host 0.0.0.0 --port 8001
+# 1. Build de la lib (cdylib) — depuis la racine du dépôt neo
+cargo build --release -p neo-moe        # → target/release/neo_moe.dll
+
+# 2. Configurer llama.cpp avec le backend
+cd crates\neo-moe\legacy_root\llama.cpp
+cmake -B build_neo_moe -G Ninja `
+    -DCMAKE_BUILD_TYPE=Release `
+    -DGGML_NEO_MOE=ON `
+    -DNEO_MOE_LIB_DIR="C:/DEV/coding/Github/neo/target/release"
+
+# 3. Compiler le serveur
+cmake --build build_neo_moe --target llama-server
+
+# 4. Lancer (neo_moe.dll doit être à côté de l'exe ou dans le PATH)
+.\build_neo_moe\bin\llama-server.exe --model model.gguf --neo-moe --port 8001
 ```
+
+`GGML_NEO_MOE` est **OFF** par défaut : sans ce flag, le fork se compile et se
+comporte exactement comme l'upstream. `NEO_MOE_LIB_DIR` doit pointer sur le
+dossier contenant `neo_moe.dll` **et** son import lib (`neo_moe.dll.lib` en MSVC,
+`libneo_moe.dll.a` en MinGW).
+
+### Options CLI ajoutées
+
+| Flag | Effet |
+|------|-------|
+| `--neo-moe` / `--no-neo-moe` | Active/désactive le streaming des experts |
+| `--neo-moe-cache-mb N` | Taille du pool VRAM d'experts (Mo) |
+| `--neo-moe-model-path PATH` | GGUF à mapper pour le streaming (si ≠ `--model`) |
+| `--neo-moe-trace` / `--no-neo-moe-trace` | Trace des hits/miss et latences par expert |
+| `--neo-moe-required` / `--no-neo-moe-required` | Échoue au lieu de retomber sur le chemin standard |
 
 ---
 
@@ -144,6 +171,9 @@ neo-moe/
 ├── neo_moe_backend.c    # ggml_backend impl (llama.cpp)
 ├── qwen_neo_moe.py      # Python bridge + launcher
 ├── .cargo/config.toml   # cargo aliases
+├── legacy_root/
+│   ├── llama.cpp/       # SUBMODULE → infinition/llama.cpp @ neo-moe
+│   └── tools_profiling/ # Scripts de bench / trace expert locality
 ├── examples/
 │   ├── integration.rs   # Full inference loop demo
 │   └── bench.rs         # NVMe→VRAM latency benchmark
@@ -171,6 +201,6 @@ neo-moe/
 - [x] C backend — ggml_backend for llama.cpp injection
 - [x] Python bridge — ctypes launcher
 - [x] Launcher — menu interactif avec 4 stratégies
-- [ ] Custom llama.cpp build — lien avec `-lneo_moe`
+- [x] Custom llama.cpp build — option CMake `GGML_NEO_MOE` sur le fork `neo-moe`
 - [ ] Windows `FILE_FLAG_NO_BUFFERING` — alternative à O_DIRECT
 - [ ] LRU eviction — remplacer FIFO dans le pool

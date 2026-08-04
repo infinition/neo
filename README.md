@@ -22,6 +22,10 @@ only ever touching compressed bitstream. Full picture in
 ## Quickstart
 
 ```powershell
+# 0. Clone with submodules - crates/neo-moe pins a patched llama.cpp fork
+git clone --recurse-submodules https://github.com/infinition/neo
+# (already cloned?  git submodule update --init --recursive)
+
 # 1. Build everything (MSVC toolchain is pinned by rust-toolchain.toml)
 cargo build --release
 
@@ -111,6 +115,7 @@ LocateAnything-3B grounding, matting, face swap:
 
 ```
 crates/        Library crates (GPU core + legacy cpu/ reference path)
+               crates/neo-moe pulls in infinition/llama.cpp @ neo-moe as a submodule
 apps/          neo (CLI) and neo-studio (GUI)
 python/        neo-py bindings, examples/, tests/
 shaders/       21 WGSL example filters (hot-reloadable)
