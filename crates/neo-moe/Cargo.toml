@@ -1,0 +1,39 @@
+[package]
+name        = "neo-moe"
+version     = "0.1.0"
+edition     = "2021"
+description = "Zero-copy MoE expert streaming from NVMe → VRAM for llama.cpp GGUF models"
+license     = "MIT OR Apache-2.0"
+
+[lib]
+# lib  → used by Rust consumers (integration tests, benchmarks)
+# cdylib → produces neo_moe.dll / libneo_moe.so for the llama.cpp C backend
+crate-type = ["lib", "cdylib"]
+
+[dependencies]
+# CUDA interop (same as neo-hwaccel uses)
+cudarc         = { workspace = true }
+# Memory-mapped file I/O (fallback path on Windows / non-Linux)
+memmap2        = { workspace = true }
+# Tracing (matches Neo conventions)
+tracing        = { workspace = true }
+# Error handling
+thiserror      = { workspace = true }
+anyhow         = "1"
+# Lockless ring buffer for the prefetch queue
+crossbeam      = "0.8"
+# For expert-activation statistics / predictor
+ndarray        = { workspace = true }
+
+# ── Linux-only: O_DIRECT + io_uring ─────────────────────────────────
+[target.'cfg(target_os = "linux")'.dependencies]
+io-uring       = "0.6"
+libc           = "0.2"
+
+[features]
+default        = []
+# Enable TensorRT path (requires neo-infer-ort)
+tensorrt       = []
+
+[dev-dependencies]
+criterion      = { version = "0.5", features = ["html_reports"] }

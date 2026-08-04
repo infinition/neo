@@ -1,0 +1,16 @@
+# neo-moe cargo aliases
+[alias]
+# Quick build (cdylib for llama.cpp linking)
+mo = "build --release"
+
+# Run benchmarks against model
+bench-moe = "run --release --example bench --"
+
+# Run integration demo
+int-moe = "run --release --example integration --"
+
+# Test with output
+t = "test -- --nocapture"
+
+# Clean + rebuild
+rebuild = "clean && build --release"

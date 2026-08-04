@@ -7,6 +7,7 @@ members = [
     "crates/neo-hwaccel",
     "crates/neo-infer-ort",
     "crates/neo-lab",
+    "crates/neo-moe",
     # Legacy CPU reference path (baseline for benchmarks)
     "crates/cpu/neo-decode",
     "crates/cpu/neo-encode",
@@ -88,6 +89,7 @@ neo-gpu = { path = "crates/neo-gpu" }
 neo-hwaccel = { path = "crates/neo-hwaccel" }
 neo-infer-ort = { path = "crates/neo-infer-ort" }
 neo-lab = { path = "crates/neo-lab" }
+neo-moe = { path = "crates/neo-moe" }
 neo-decode = { path = "crates/cpu/neo-decode" }
 neo-encode = { path = "crates/cpu/neo-encode" }
 neo-filters = { path = "crates/cpu/neo-filters" }

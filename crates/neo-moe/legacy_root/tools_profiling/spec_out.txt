@@ -1,0 +1,47 @@
+
+Loading model... 
+
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b9721-5fd2dc2c4
+model      : Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+> Explain step by step how a turbojet engine works.
+
+[Start thinking]
+Here's a thinking process:
+
+1.  **Understand User Request:** The user wants a step-by-step explanation of how a turbojet engine works. This is a straightforward technical explanation request. I need to be clear, accurate, and structured.
+
+2.  **Identify Key Components of a Turbojet Engine:** 
+   - Inlet/Intake
+   - Compressor
+   - Combustion Chamber
+   - Turbine
+   - Exhaust/Nozzle
+   - (Optional but relevant: Shaft connecting turbine to compressor, fuel system)
+
+3.  **Determine the Operating Principle:** 
+  
+
+[ Prompt: 22.6 t/s | Generation: 22.4 t/s ]
+
+> 
+
+Exiting...
