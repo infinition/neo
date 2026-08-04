@@ -1,0 +1,4 @@
+[submodule "crates/neo-moe/legacy_root/llama.cpp"]
+	path = crates/neo-moe/legacy_root/llama.cpp
+	url = https://github.com/infinition/llama.cpp.git
+	branch = neo-moe
